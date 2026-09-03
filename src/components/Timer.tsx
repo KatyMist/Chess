@@ -10,8 +10,8 @@ interface TimerProps {
 }
 
 const Timer: FC<TimerProps> = ({currentPlayer, restart, onTimeUp, isGameOver}) => {
-    const [blackTime, setBlackTime] = useState(500);
-    const [whiteTime, setWhiteTime] = useState(500);
+    const [blackTime, setBlackTime] = useState(9000);
+    const [whiteTime, setWhiteTime] = useState(9000);
     const timer = useRef<null | ReturnType<typeof setInterval>>(null)
 
     useEffect(() => {
