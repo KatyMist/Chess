@@ -160,6 +160,24 @@ export class Board {
         return true;
     }
 
+    public hasAnyLegalMove(color: Colors): boolean {
+        for (const figure of this.getFigures(color)) {
+            for (const row of this.cells) {
+                for (const targetCell of row) {
+                    if (figure.canMove(targetCell) && this.isMoveLegal(figure.cell, targetCell, color)) {
+                        return true;
+                    }
+                }
+            }
+        }
+        return false;
+    }
+
+    public isStaleMate(color: Colors): boolean {
+        if (this.isCheck(color)) return false;
+        return !this.hasAnyLegalMove(color);
+    }
+
     public addPawns() {
         for(let i = 0; i < 8; i++) {
             new Pawn(Colors.BLACK, this.getCell(i, 1))

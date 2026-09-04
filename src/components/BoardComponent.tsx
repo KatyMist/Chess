@@ -11,9 +11,12 @@ interface BoardProps {
     currentPlayer: Player | null;
     swapPlayer: () => void;
     onCheckMate: (loserColor: Colors) => void;
+    onStaleMate: () => void;
+    onBeforeMove: () => void;
+    resetToken: number;
 }
 
-const BoardComponent: FC<BoardProps> = ({board, setBoard, currentPlayer, swapPlayer, onCheckMate}) => {
+const BoardComponent: FC<BoardProps> = ({board, setBoard, currentPlayer, swapPlayer, onCheckMate, onStaleMate, onBeforeMove, resetToken}) => {
     const [selectedCell, setSelectedCell] = useState<Cell | null>(null);
     const [isCheck, setIsCheck] = useState(false);
 
@@ -24,6 +27,8 @@ const BoardComponent: FC<BoardProps> = ({board, setBoard, currentPlayer, swapPla
             selectedCell.figure?.canMove(cell) &&
             board.isMoveLegal(selectedCell, cell, selectedCell.figure.color)
         ) {
+            onBeforeMove();
+
             selectedCell.moveFigure(cell);
             board.promoteIfNeeded(cell);
             setSelectedCell(null);
@@ -32,10 +37,10 @@ const BoardComponent: FC<BoardProps> = ({board, setBoard, currentPlayer, swapPla
             const opponentColor = currentPlayer?.color === Colors.WHITE ? Colors.BLACK : Colors.WHITE;
 
             if (board.isCheckMate(opponentColor)) {
-                setIsCheck(false);
                 onCheckMate(opponentColor);
+            } else if (board.isStaleMate(opponentColor)) {
+                onStaleMate();
             } else {
-                setIsCheck(board.isCheck(opponentColor));
                 swapPlayer();
             }
         } else {
@@ -54,6 +59,16 @@ const BoardComponent: FC<BoardProps> = ({board, setBoard, currentPlayer, swapPla
         highlightCells()
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [selectedCell])
+
+    useEffect(() => {
+        setSelectedCell(null)
+    }, [resetToken])
+
+    useEffect(() => {
+        if (currentPlayer) {
+            setIsCheck(board.isCheck(currentPlayer.color));
+        }
+    }, [board, currentPlayer])
 
     function updateBoard() {
         const newBoard = board.getCopyBoard()

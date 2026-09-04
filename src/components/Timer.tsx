@@ -7,11 +7,12 @@ interface TimerProps {
     restart: () => void;
     onTimeUp: (loserColor: Colors) => void;
     isGameOver: boolean;
+    initialSeconds: number;
 }
 
-const Timer: FC<TimerProps> = ({currentPlayer, restart, onTimeUp, isGameOver}) => {
-    const [blackTime, setBlackTime] = useState(9000);
-    const [whiteTime, setWhiteTime] = useState(9000);
+const Timer: FC<TimerProps> = ({currentPlayer, restart, onTimeUp, isGameOver, initialSeconds}) => {
+    const [blackTime, setBlackTime] = useState(initialSeconds);
+    const [whiteTime, setWhiteTime] = useState(initialSeconds);
     const timer = useRef<null | ReturnType<typeof setInterval>>(null)
 
     useEffect(() => {
@@ -58,13 +59,19 @@ const Timer: FC<TimerProps> = ({currentPlayer, restart, onTimeUp, isGameOver}) =
         })
     }
 
+    function formatTime(seconds: number) {
+        const m = Math.floor(seconds / 60);
+        const s = seconds % 60;
+        return `${m}:${s < 10 ? '0' : ''}${s}`;
+    }
+
     return (
         <div>
             <div>
                 <button onClick={restart}>Restart game</button>
             </div>
-            <h2>Черные - {blackTime}</h2>
-            <h2>Белые - {whiteTime}</h2>
+            <h2>Черные - {formatTime(blackTime)}</h2>
+            <h2>Белые - {formatTime(whiteTime)}</h2>
         </div>
     );
 };
