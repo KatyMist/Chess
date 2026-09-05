@@ -7,6 +7,13 @@ import { Colors } from './models/Colors';
 import LostFigures from './components/LostFigures';
 import Timer from './components/Timer';
 
+import pawnLogo from './assets/white-pawn.png'
+import knightLogo from './assets/White_Horse.png'
+import bishopLogo from './assets/white-bishop.png'
+import rookLogo from './assets/white-rook.png'
+import queenLogo from './assets/white-queen.png'
+import kingLogo from './assets/white-king.png'
+
 interface FinishStatus {
     winner: Colors | null;
     reason: 'time' | 'checkmate' | 'stalemate';
@@ -180,6 +187,54 @@ const App = () => {
                             title="Белые фигуры"
                             figures={board.lostWhiteFigures}
                         />
+                    </div>
+                </aside>
+
+                <aside className="panel panel--info">
+                    <h4 className="pieces-guide__title">Фигуры</h4>
+                    <div className="pieces-guide">
+                        <div className="pieces-guide__item">
+                            <img src={pawnLogo} alt="Пешка" className="pieces-guide__img" />
+                            <div>
+                                <p className="pieces-guide__name">Пешка</p>
+                                <p className="pieces-guide__desc">Ходит на 1 клетку вперёд, бьёт по диагонали</p>
+                            </div>
+                        </div>
+                        <div className="pieces-guide__item">
+                            <img src={knightLogo} alt="Конь" className="pieces-guide__img" />
+                            <div>
+                                <p className="pieces-guide__name">Конь</p>
+                                <p className="pieces-guide__desc">Ходит буквой «Г», перепрыгивает фигуры</p>
+                            </div>
+                        </div>
+                        <div className="pieces-guide__item">
+                            <img src={bishopLogo} alt="Слон" className="pieces-guide__img" />
+                            <div>
+                                <p className="pieces-guide__name">Слон</p>
+                                <p className="pieces-guide__desc">Ходит по диагонали на любое число клеток</p>
+                            </div>
+                        </div>
+                        <div className="pieces-guide__item">
+                            <img src={rookLogo} alt="Ладья" className="pieces-guide__img" />
+                            <div>
+                                <p className="pieces-guide__name">Ладья</p>
+                                <p className="pieces-guide__desc">Ходит по вертикали и горизонтали</p>
+                            </div>
+                        </div>
+                        <div className="pieces-guide__item">
+                            <img src={queenLogo} alt="Ферзь" className="pieces-guide__img" />
+                            <div>
+                                <p className="pieces-guide__name">Ферзь</p>
+                                <p className="pieces-guide__desc">Ходит как ладья и слон вместе</p>
+                            </div>
+                        </div>
+                        <div className="pieces-guide__item">
+                            <img src={kingLogo} alt="Король" className="pieces-guide__img" />
+                            <div>
+                                <p className="pieces-guide__name">Король</p>
+                                <p className="pieces-guide__desc">Ходит на 1 клетку в любом направлении</p>
+                            </div>
+                        </div>
                     </div>
                 </aside>
             </div>
