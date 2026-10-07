@@ -1,6 +1,6 @@
 {
   "files": {
-    "main.css": "/Chess/static/css/main.eb18ffbf.chunk.css",
+    "main.css": "/Chess/static/css/main.e3f4be15.chunk.css",
     "main.js": "/Chess/static/js/main.60d41b4b.chunk.js",
     "main.js.map": "/Chess/static/js/main.60d41b4b.chunk.js.map",
     "runtime-main.js": "/Chess/static/js/runtime-main.408aec2b.js",
@@ -8,7 +8,7 @@
     "static/js/2.e1995b6a.chunk.js": "/Chess/static/js/2.e1995b6a.chunk.js",
     "static/js/2.e1995b6a.chunk.js.map": "/Chess/static/js/2.e1995b6a.chunk.js.map",
     "index.html": "/Chess/index.html",
-    "static/css/main.eb18ffbf.chunk.css.map": "/Chess/static/css/main.eb18ffbf.chunk.css.map",
+    "static/css/main.e3f4be15.chunk.css.map": "/Chess/static/css/main.e3f4be15.chunk.css.map",
     "static/js/2.e1995b6a.chunk.js.LICENSE.txt": "/Chess/static/js/2.e1995b6a.chunk.js.LICENSE.txt",
     "static/media/Black_Horse.bbda937b.png": "/Chess/static/media/Black_Horse.bbda937b.png",
     "static/media/White_Horse.b11cfd1b.png": "/Chess/static/media/White_Horse.b11cfd1b.png",
@@ -26,7 +26,7 @@
   "entrypoints": [
     "static/js/runtime-main.408aec2b.js",
     "static/js/2.e1995b6a.chunk.js",
-    "static/css/main.eb18ffbf.chunk.css",
+    "static/css/main.e3f4be15.chunk.css",
     "static/js/main.60d41b4b.chunk.js"
   ]
 }
