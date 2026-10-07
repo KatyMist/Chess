@@ -1,5 +1,10 @@
 @import url('https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600;700&family=Poppins:wght@400;500;600&display=swap');
 
+/* Размер клетки доски — меняется в адаптиве */
+:root {
+    --cell: 64px;
+}
+
 * {
     margin: 0;
     padding: 0;
@@ -58,10 +63,8 @@ body {
     flex-wrap: wrap;
 }
 
-.sidebar-right {
-    display: flex;
-    flex-direction: column;
-    gap: 24px;
+.panel--info {
+    width: 220px;
     align-self: flex-start;
 }
 
@@ -103,18 +106,19 @@ body {
 /* Доска */
 
 .board {
-    width: calc(64px * 8);
-    height: calc(64px * 8);
-    display: flex;
-    flex-wrap: wrap;
+    width: calc(var(--cell) * 8);
+    height: calc(var(--cell) * 8);
+    display: grid;
+    grid-template-columns: repeat(8, var(--cell));
+    grid-auto-rows: var(--cell);
     border-radius: 16px;
     overflow: hidden;
     box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.5);
 }
 
 .cell {
-    width: 64px;
-    height: 64px;
+    width: var(--cell);
+    height: var(--cell);
     display: flex;
     justify-content: center;
     align-items: center;
@@ -123,8 +127,8 @@ body {
 }
 
 .cell img {
-    max-width: 48px;
-    max-height: 48px;
+    max-width: calc(var(--cell) * 0.75);
+    max-height: calc(var(--cell) * 0.75);
     width: auto;
     height: auto;
     object-fit: contain;
@@ -145,8 +149,8 @@ body {
 }
 
 .available {
-    height: 14px;
-    width: 14px;
+    height: clamp(8px, calc(var(--cell) * 0.22), 14px);
+    width: clamp(8px, calc(var(--cell) * 0.22), 14px);
     border-radius: 50%;
     background-color: #d9a441;
     box-shadow: 0 0 10px rgba(217, 164, 65, 0.8);
@@ -349,19 +353,6 @@ body {
     margin-bottom: 24px;
 }
 
-/* Адаптив */
-
-@media (max-width: 900px) {
-    .app__layout {
-        flex-direction: column;
-        align-items: center;
-    }
-    .panel--timer,
-    .panel--captured {
-        width: calc(64px * 8 + 40px);
-    }
-}
-
 /* Статус игры внутри доски */
 
 .board__status {
@@ -469,4 +460,216 @@ body {
     opacity: 0.6;
     margin: 0;
     line-height: 1.25;
+}
+
+/* ============================================================
+   Адаптив
+   ≥1440 — десктоп (без изменений)
+   1200–1439 — ноутбук: та же раскладка в одну строку, компактнее
+   1000–1199 — малый ноутбук / планшет landscape
+   600–999 — планшет
+   <600 — телефон
+   ============================================================ */
+
+/* Ноутбук */
+@media (max-width: 1439px) {
+    :root {
+        --cell: min(64px, calc((100vw - 798px) / 8));
+    }
+
+    .app__layout {
+        flex-wrap: nowrap;
+        gap: 20px;
+    }
+
+    .panel--timer,
+    .captured-column,
+    .panel--info {
+        width: 210px;
+        flex-shrink: 0;
+    }
+
+    .panel--timer,
+    .panel--info,
+    .panel--captured-single {
+        padding: 20px;
+    }
+}
+
+/* Малый ноутбук / планшет landscape */
+@media (max-width: 1199px) {
+    :root {
+        --cell: min(64px, calc((100vw - 548px) / 8));
+    }
+
+    .app__layout {
+        display: grid;
+        grid-template-columns: 200px auto 200px;
+        grid-template-areas:
+            "timer board captured"
+            "info  info  info";
+        align-items: start;
+        justify-content: center;
+    }
+
+    .panel--timer {
+        grid-area: timer;
+        width: auto;
+    }
+
+    .panel--board {
+        grid-area: board;
+        justify-self: center;
+    }
+
+    .captured-column {
+        grid-area: captured;
+        width: auto;
+    }
+
+    .panel--info {
+        grid-area: info;
+        width: auto;
+        align-self: stretch;
+    }
+
+    .pieces-guide {
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        gap: 14px 20px;
+    }
+}
+
+/* Планшет */
+@media (max-width: 999px) {
+    :root {
+        --cell: min(64px, calc((100vw - 108px) / 8));
+    }
+
+    .app {
+        gap: 24px;
+        padding: 32px 24px;
+    }
+
+    .app__logo {
+        font-size: 34px;
+    }
+
+    .app__logo-crown {
+        font-size: 28px;
+    }
+
+    .app__layout {
+        width: calc(var(--cell) * 8 + 40px);
+        grid-template-columns: 1fr 1fr;
+        grid-template-areas:
+            "board board"
+            "timer captured"
+            "info  info";
+    }
+
+    .panel--captured-white {
+        margin-top: 20px;
+    }
+
+    .pieces-guide {
+        grid-template-columns: repeat(2, 1fr);
+    }
+}
+
+/* Телефон */
+@media (max-width: 599px) {
+    :root {
+        --cell: calc((100vw - 48px) / 8);
+    }
+
+    .app {
+        gap: 18px;
+        padding: 20px 12px 32px;
+    }
+
+    .app__logo {
+        font-size: 28px;
+        gap: 8px;
+    }
+
+    .app__logo-crown {
+        font-size: 22px;
+    }
+
+    .panel,
+    .panel--timer,
+    .panel--info,
+    .panel--captured-single {
+        padding: 16px;
+        border-radius: 20px;
+    }
+
+    .panel--board {
+        padding: 12px;
+    }
+
+    .board {
+        border-radius: 12px;
+    }
+
+    .board__status {
+        font-size: 16px;
+    }
+
+    .board__check {
+        font-size: 14px;
+        margin-bottom: 12px;
+    }
+
+    .app__layout {
+        width: calc(var(--cell) * 8 + 24px);
+        gap: 16px;
+        grid-template-columns: 1fr;
+        grid-template-areas:
+            "board"
+            "timer"
+            "captured"
+            "info";
+    }
+
+    .captured-column {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 12px;
+    }
+
+    .panel--captured-white {
+        margin-top: 0;
+    }
+
+    .lost {
+        padding: 12px 14px;
+    }
+
+    .lost h3 {
+        font-size: 15px;
+    }
+
+    /* 16px — чтобы iOS не зумил страницу при фокусе */
+    .timer-settings__input {
+        font-size: 16px;
+    }
+
+    .pieces-guide {
+        grid-template-columns: 1fr;
+    }
+
+    .game-over-card {
+        margin: 0 16px;
+        padding: 32px 24px;
+    }
+
+    .game-over-card__crown {
+        font-size: 44px;
+    }
+
+    .game-over-card__title {
+        font-size: 26px;
+    }
 }
